@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:skoring/pages/HomePage.dart';
 import 'package:skoring/pages/SplashScreen.dart';
-import 'package:skoring/utils/databaseConnections.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDatabase.connect();
+
   runApp(MyApp());
 }
 
