@@ -3,7 +3,8 @@ import 'package:pie_chart/pie_chart.dart';
 import 'dart:math' as math;
 
 class CartPie extends StatefulWidget {
-  const CartPie({super.key});
+  final Map thisData;
+  const CartPie({super.key, required this.thisData});
 
   @override
   State<CartPie> createState() => _CartPieState();
@@ -12,12 +13,24 @@ class CartPie extends StatefulWidget {
 enum LegendShape { circle, rectangle }
 
 class _CartPieState extends State<CartPie> {
-  final dataMap = <String, double>{
-    "Flutter": 5,
-    "React": 3,
-    "Xamarin": 2,
-    "Ionic": 2,
+  late List thisData = [];
+  late Map<String, double> dataMap = {};
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    var thisData = widget.thisData['categoriesResult'];
+
+    dataMap = <String, double>{
+      "Character": thisData[0]['finalValue'],
+      "Capacity": thisData[1]['finalValue'],
+      "Capital": thisData[2]['finalValue'],
+      "Collateral": thisData[3]['finalValue'],
+      "Condition Of Economy": thisData[4]['finalValue'],
   };
+  }
+
 
   final legendLabels = <String, String>{
     "Flutter": "Flutter legend",
@@ -80,10 +93,8 @@ class _CartPieState extends State<CartPie> {
       colorList: colorList,
       initialAngleInDegree: 0,
       chartType: _chartType!,
-      centerText: _showCenterText ? "HYBRID" : null,
-      centerWidget: _showCenterWidget
-          ? Container(color: Colors.red, child: const Text("Center"))
-          : null,
+
+
       legendLabels: _showLegendLabel ? legendLabels : {},
       legendOptions: LegendOptions(
         showLegendsInRow: _showLegendsInRow,

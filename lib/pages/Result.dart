@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_to_pdf/flutter_to_pdf.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:skoring/components/CartPie.dart';
+import 'package:skoring/pages/Skoring/Enggine.dart';
 
 class ResultPage extends StatefulWidget {
   final Map dataResult;
@@ -10,6 +15,25 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  final ExportDelegate exportDelegate = ExportDelegate();
+  List itemResult = [];
+
+  Future<void> saveFile(document, String name) async {
+    final Directory dir = await getApplicationDocumentsDirectory();
+    final File file = File('${dir.path}/$name.pdf');
+
+    await file.writeAsBytes(await document.save());
+    debugPrint('Saved exported PDF at: ${file.path}');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    itemResult = widget.dataResult['itemResult'];
+    print(itemResult[0]['questions']);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +47,7 @@ class _ResultPageState extends State<ResultPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.blue),
       ),
+
       body: SafeArea(
           child: SingleChildScrollView(
         child: Container(
@@ -38,6 +63,13 @@ class _ResultPageState extends State<ResultPage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
+                ),
+              ),
+              const Text(
+                'Analitic by Eddy Ngganggus ',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
                 ),
               ),
               const SizedBox(
@@ -57,6 +89,13 @@ class _ResultPageState extends State<ResultPage> {
                 ),
               ),
               const Divider(),
+              Text(
+                '${widget.dataResult['rekapResult']['finalValue']}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -72,18 +111,28 @@ class _ResultPageState extends State<ResultPage> {
                   style: const TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
-              Text(
-                '${widget.dataResult['rekapResult']['finalValue']}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+              Container(
+                width: 400,
+                height: 200,
+                child: CartPie(
+                  thisData: widget.dataResult,
                 ),
               ),
-              Container(width: 400, height: 400, child: CartPie())
+              for (var i = 0; i < itemResult.length; i++)
+                ResultCard(
+                  questionData: itemResult[i],
+                ),
+
+
             ],
           ),
         ),
       )),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   backgroundColor: Colors.blue,
+      //   child: Icon(Icons.file_download),
+      // ),
     );
   }
 }

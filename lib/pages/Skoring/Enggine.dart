@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:skoring/components/Helpers.dart';
 import 'package:skoring/components/ToastAlert.dart';
 import 'package:skoring/repository/localDatabase.dart';
 
@@ -620,6 +621,43 @@ class ResultCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Align(
+                  alignment: Alignment.topRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(12)),
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Text(
+                                labelCharacter(questionData['dimensiId']),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          )),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.amber[800],
+                              borderRadius: BorderRadius.circular(12)),
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Text(
+                                labelDimensi(questionData['dimensiId']),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          )),
+                    ],
+                  )),
               Text(
                 questionData['questions'],
                 style: TextStyle(

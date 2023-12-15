@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skoring/pages/Resources/Prinsip.dart';
 
 class CustomButton extends StatefulWidget {
   final IconData icon;
@@ -26,6 +27,8 @@ class _CustomButtonState extends State<CustomButton> {
           onTap: () {
             setState(() {
               sideLength == 50 ? sideLength = 100 : sideLength = 50;
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ResourcesPage()));
             });
           },
           child: Column(

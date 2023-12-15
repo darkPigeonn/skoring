@@ -39,6 +39,10 @@ dependencies:
   hive_flutter: ^1.1.0
   fluttertoast: ^8.2.4
   pie_chart: ^5.4.0
+  flutter_to_pdf: ^0.1.1
+  path_provider: ^2.1.1
+  flutter_html: ^3.0.0-beta.2
+  flutter_html_table: ^3.0.0-beta.2
 
 
 dev_dependencies:
