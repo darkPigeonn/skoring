@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:skoring/components/ToastAlert.dart';
+import 'package:skoring/repository/localDatabase.dart';
 
 class EnginePage extends StatefulWidget {
-  const EnginePage({super.key});
+  final String pemohon;
+  final String perusahaan;
+  const EnginePage(
+      {super.key, required this.pemohon, required this.perusahaan});
 
   @override
   State<EnginePage> createState() => _EnginePageState();
@@ -393,7 +399,7 @@ class _EnginePageState extends State<EnginePage> {
                           ),
                         SizedBox(height: 10),
                         ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               for (var i = 0; i < selectedOptions.length; i++) {
                                 var thisItem = selectedOptions[i]['value'];
                                 var thisData = data[i];
@@ -467,15 +473,29 @@ class _EnginePageState extends State<EnginePage> {
                               rekapResult['analiticItem'] = analiticItem;
                               rekapResult['finalValue'] = totalValue.abs();
 
-                              setState(() {
-                                viewMode = 2;
-                                resultData = updatedList;
-                              });
-                              _scrollController.animateTo(
-                                0,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.easeInOut,
-                              );
+                              //save to loca
+                              LocalDatabase localDatabase = LocalDatabase();
+                              Map dataSend = {
+                                "pemohon": widget.pemohon,
+                                "perusahaan": widget.perusahaan,
+                                "itemResult": updatedList,
+                                'categoriesResult': categories,
+                                'rekapResult': rekapResult,
+                              };
+                              final insertData =
+                                  await localDatabase.addToDb(dataSend);
+                              if (insertData) {
+                                successAlert('Berhasil Memproses');
+                                setState(() {
+                                  viewMode = 2;
+                                  resultData = updatedList;
+                                });
+                                _scrollController.animateTo(
+                                  0,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.easeInOut,
+                                );
+                              }
                             },
                             child: Text('Simpan'))
                       ],
