@@ -382,19 +382,6 @@ class _CartPieState extends State<CartPie> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Pie Chart @apgapg"),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                key = key + 1;
-              });
-            },
-            child: Text("Reload".toUpperCase()),
-          ),
-        ],
-      ),
       body: LayoutBuilder(
         builder: (_, constraints) {
           if (constraints.maxWidth >= 600) {
@@ -423,7 +410,6 @@ class _CartPieState extends State<CartPie> {
                     ),
                     child: chart,
                   ),
-                  settings,
                 ],
               ),
             );
